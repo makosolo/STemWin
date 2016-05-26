@@ -1,0 +1,20 @@
+--create .\Objects\STemWinFreeRTOS_Demo.lib
+.\objects\system_stm32f10x.o
+.\objects\startup_stm32f10x_hd.o
+.\objects\misc.o
+.\objects\stm32f10x_gpio.o
+.\objects\stm32f10x_rcc.o
+.\objects\stm32f10x_usart.o
+.\objects\croutine.o
+.\objects\event_groups.o
+.\objects\list.o
+.\objects\queue.o
+.\objects\tasks.o
+.\objects\timers.o
+.\objects\port.o
+.\objects\heap_4.o
+.\objects\main.o
+.\objects\sys.o
+.\objects\bsp_init.o
+.\objects\bsp_usart.o
+.\objects\bsp_led.o
