@@ -47,7 +47,7 @@ Purpose     : Display controller initialization
 #define EXT_SRAM_ADDR  	((U32)0x68000000) //片外SRAM地址
 
 #if EX_SRAM
-#define GUI_NUMBYTES  (1024*1024) //片外RAM
+#define GUI_NUMBYTES  (512*1024) //片外RAM
 #else
 #define GUI_NUMBYTES  (30*1024)   //片内RAM
 #endif

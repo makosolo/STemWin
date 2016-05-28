@@ -1,15 +1,13 @@
 #include "sys.h"
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-#include "croutine.h"
-
 #include "bsp_usart.h"
 #include "bsp_led.h"
+#include "bsp_lcd.h"
+#include "bsp_key.h"
+#include "bsp_touch.h"
 #include "bsp_init.h"
+
 #include "MainTask.h"
-#include "touch.h"
 
 static void vTaskGUI(void *pvParameters);
 void vTaskTaskLED0(void *pvParameters);
@@ -89,12 +87,44 @@ void vTaskTaskLED1(void *pvParameters)
     }
 }
 
+GUI_PID_STATE State;
 void vTaskTaskKEY(void *pvParameters)
 {
+    static u32 cont = 0;
+    
     while(1)
     {
-        GUI_TOUCH_Exec();
-//        tp_dev.scan(0);
+        tp_dev.scan(0);//扫触摸，1ms
+        if(cont == 10) bsp_KeyScan();//扫按键，10ms
+                
+		if(KEY_1_DOWN == bsp_GetKey())	//KEY_1_DOWN按下,则执行校准程序
+		{
+			LCD_Clear(WHITE);//清屏
+		    TP_Adjust();  //屏幕校准 
+			TP_Save_Adjdata();	 
+		}
+        
+        if(tp_dev.sta&TP_PRES_DOWN) //触摸屏被按下
+		{	
+		 	if((tp_dev.x < lcddev.width) && (tp_dev.y < lcddev.height)) //限制范围
+			{	
+                State.x = tp_dev.x;
+                State.y = tp_dev.y;
+                State.Pressed = 1;
+                GUI_PID_StoreState(&State); 
+			}
+		}
+        else //触摸屏释放
+        {
+            State.x = -1;
+            State.y = -1;
+            State.Pressed = 0;
+            GUI_PID_StoreState(&State);
+        }
+
+        cont++;
+        if(cont > 10) cont = 0;
+        
         vTaskDelay(1);
     }
 }

@@ -38,12 +38,9 @@ Purpose     : Template driver, could be used as starting point for new
 #include "GUI_Private.h"
 //#include "LCD_SIM.h"
 #include "LCD_ConfDefaults.h"
-//#include "bsp_tft_lcd.h"
-//#include "LCD_ILI9488.h"
-//#include "LCD_RA8875.h"
-#include "lcd.h"
+#include "bsp_lcd_tft.h"
 
-#define emWin_Optimize   0 /* used for emWin optimize */
+#define emWin_Optimize   1 /* used for emWin optimize */
 
 /*********************************************************************
 *
@@ -149,7 +146,7 @@ static void _SetPixelIndex(GUI_DEVICE * pDevice, int x, int y, int PixelIndex) {
       //
       // TBD by customer...
       //
-        LCD_DrawPoint(xPhys, yPhys, PixelIndex);//»­µãº¯Êý
+        LCD_TFT_PutPixel(xPhys, yPhys, PixelIndex);//»­µãº¯Êý
     }
     #if (LCD_MIRROR_X == 0) && (LCD_MIRROR_Y == 0) && (LCD_SWAP_XY == 0)
       #undef xPhys
@@ -193,7 +190,7 @@ static unsigned int _GetPixelIndex(GUI_DEVICE * pDevice, int x, int y) { //¶Áµãº
       //
       // TBD by customer...
       //
-        PixelIndex = LCD_ReadPoint(xPhys, yPhys);//¶Áµã
+        PixelIndex = LCD_TFT_GetPixel(xPhys, yPhys);//¶Áµã
     }
     #if (LCD_MIRROR_X == 0) && (LCD_MIRROR_Y == 0) && (LCD_SWAP_XY == 0)
       #undef xPhys
@@ -229,21 +226,18 @@ static void _DrawHLine  (GUI_DEVICE * pDevice, int x0, int y,  int x1) {
     }
   } else {
 	  #if emWin_Optimize
-//		ColorIndex = LCD__GetColorIndex();
-//        if (g_ChipID == IC_8875)
-//		{
-//			 RA8875_DrawHLine( x0, y, x1, ColorIndex);
-//		}
-//		else
-//		{
-//			ILI9488_DrawHLine(x0, y, x1, ColorIndex);
-//		}
+
+        ColorIndex = LCD__GetColorIndex();
+        LCD_TFT_DrawHLine(x0, y, x1, ColorIndex);
+
 	  #else
-		ColorIndex = LCD__GetColorIndex();
-		for (; x0 <= x1; x0++) {
-		  _SetPixelIndex(pDevice, x0, y, ColorIndex);
-	  
-		}
+
+        ColorIndex = LCD__GetColorIndex();
+        for (; x0 <= x1; x0++) {
+          _SetPixelIndex(pDevice, x0, y, ColorIndex);
+
+        }
+
 	  #endif
     }
 }
@@ -260,16 +254,10 @@ static void _DrawVLine  (GUI_DEVICE * pDevice, int x, int y0,  int y1) {
     }
   } else {
     #if emWin_Optimize
-//		ColorIndex = LCD__GetColorIndex();
-//	  
-//		if (g_ChipID == IC_8875)
-//		{
-//			 RA8875_DrawVLine(x, y0, y1, ColorIndex);
-//		}
-//		else
-//		{
-//			ILI9488_DrawVLine(x, y0, y1, ColorIndex);
-//		}
+      
+		ColorIndex = LCD__GetColorIndex();
+        LCD_TFT_DrawVLine(x, y0, y1, ColorIndex);
+
 	#else
 		ColorIndex = LCD__GetColorIndex();
 	    for (; y0 <= y1; y0++) {
@@ -284,7 +272,7 @@ static void _DrawVLine  (GUI_DEVICE * pDevice, int x, int y0,  int y1) {
 *       _FillRect
 */
 static void _FillRect(GUI_DEVICE * pDevice, int x0, int y0, int x1, int y1) {
-//    LCD_PIXELINDEX ColorIndex;
+    LCD_PIXELINDEX ColorIndex;
 	int x;
 	
 	if (GUI_pContext->DrawMode & LCD_DRAWMODE_XOR) 
@@ -301,16 +289,10 @@ static void _FillRect(GUI_DEVICE * pDevice, int x0, int y0, int x1, int y1) {
 	{
 	  /* Ñ¡Ôñ½øÐÐÓÅ»¯ */
 	#if emWin_Optimize
-//		ColorIndex = LCD__GetColorIndex();
-//		if (g_ChipID == IC_8875)
-//		{
-//			RA8875_RTERect( x0,  y0,  x1,  y1,  ColorIndex); 
-//		}
-//		else
-//		{
-//			ILI9488_FillRect(x0, y0, y1-y0+1, x1-x0+1, ColorIndex);
-//		}
-//		
+        
+		ColorIndex = LCD__GetColorIndex();
+        LCD_TFT_FillRect(x0, y0, y1-y0+1, x1-x0+1, ColorIndex);
+
 	#else
 		for (; y0 <= y1; y0++) 
 		{
@@ -558,14 +540,9 @@ static void  _DrawBitLine8BPP(GUI_DEVICE * pDevice, int x, int y, U8 const * p, 
 */
 static void _DrawBitLine16BPP(GUI_DEVICE * pDevice, int x, int y, U16 const * p, int xsize) {
 #if emWin_Optimize
-//	if (g_ChipID == IC_8875)
-//	{
-//		 RA8875_DrawHColorLine(x, y, xsize, (uint16_t *)p);
-//	}
-//	else
-//	{
-//		ILI9488_DrawHColorLine(x, y, xsize, (uint16_t *)p);
-//	}
+    
+    LCD_TFT_DrawHColorLine(x, y, xsize, (uint16_t *)p);
+
 #else
 	for (;xsize > 0; xsize--, x++, p++) 
 	{
@@ -584,14 +561,9 @@ static void _DrawBitLine16BPP(GUI_DEVICE * pDevice, int x, int y, U16 const * p,
 */
 static void _DrawBitLine32BPP(GUI_DEVICE * pDevice, int x, int y, U32 const * p, int xsize) {
 #if emWin_Optimize
-//	if (g_ChipID == IC_8875)
-//	{
-//		 RA8875_DrawHColorLine(x, y, xsize, (uint16_t *)p);
-//	}
-//	else
-//	{
-//		ILI9488_DrawHColorLine(x, y, xsize, (uint16_t *)p);
-//	}
+    
+    LCD_TFT_DrawHColorLine(x, y, xsize, (uint16_t *)p);
+
 #else
 	for (;xsize > 0; xsize--, x++, p++) 
 	{

@@ -34,7 +34,6 @@ Purpose     : Display controller configuration (single layer)
 
 #include "GUI.h"
 #include "GUIDRV_Template.h"
-//#include "bsp.h"
 
 /*
 ********************************************************************
@@ -127,10 +126,6 @@ void LCD_X_Config(void) {
 
 	LCD_SetSizeEx    (0, XSIZE_PHYS, YSIZE_PHYS); //液晶的宽和高
 	LCD_SetVSizeEx   (0, VXSIZE_PHYS, VYSIZE_PHYS); //液晶的宽和高
-    
-    GUI_TOUCH_SetOrientation(GUI_SWAP_XY|GUI_MIRROR_Y); 
-    GUI_TOUCH_Calibrate(GUI_COORD_X,0,320,3931,226);
-    GUI_TOUCH_Calibrate(GUI_COORD_Y,0,480,3821,196);
 }
 
 /*

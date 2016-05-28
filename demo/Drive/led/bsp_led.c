@@ -2,7 +2,7 @@
 
 //初始化PB5和PE5为输出口.并使能这两个口的时钟		    
 //LED IO初始化
-void LED_Init(void)
+void bsp_InitLED(void)
 {
  
  GPIO_InitTypeDef  GPIO_InitStructure;

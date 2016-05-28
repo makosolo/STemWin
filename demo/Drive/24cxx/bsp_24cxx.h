@@ -1,18 +1,7 @@
-#ifndef __24CXX_H
-#define __24CXX_H
-#include "myiic.h"   
-//////////////////////////////////////////////////////////////////////////////////	 
-//本程序只供学习使用，未经作者许可，不得用于其它任何用途
-//Mini STM32开发板
-//24CXX驱动函数(适合24C01~24C16,24C32~256未经过测试!有待验证!)	   
-//正点原子@ALIENTEK
-//技术论坛:www.openedv.com
-//修改日期:2010/6/10 
-//版本：V1.0
-//版权所有，盗版必究。
-//Copyright(C) 正点原子 2009-2019
-//All rights reserved
-////////////////////////////////////////////////////////////////////////////////// 	  
+#ifndef __BSP_24CXX_H_
+#define __BSP_24CXX_H_
+
+#include "bsp_myiic.h"
 
 #define AT24C01		127
 #define AT24C02		255
@@ -35,7 +24,8 @@ void AT24CXX_Read(u16 ReadAddr,u8 *pBuffer,u16 NumToRead);   	//从指定地址开始读
 
 u8 AT24CXX_Check(void);  //检查器件
 void AT24CXX_Init(void); //初始化IIC
-#endif
+
+#endif //__BSP_24CXX_H_
 
 
 

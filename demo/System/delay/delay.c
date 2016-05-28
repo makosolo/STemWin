@@ -8,7 +8,7 @@
 * 参数  	: usec
 * 返回值	: 无
 *******************************************************************************/
-__asm int delay_us(u32 usec)
+__asm int delay_us(volatile u32 usec)
 {
 	ALIGN
 	PUSH.W {r1} //2时钟周期
@@ -23,7 +23,7 @@ loop
 	//总共所用周期为(usec*4)-4,此处减4主要用于抵消调用此函数的消耗时钟周期（传参1时钟，BLX跳转3时钟）
 }
 
-void delay_ms(u32 msec)
+void delay_ms(volatile u32 msec)
 {
 	while(msec--)
 	{

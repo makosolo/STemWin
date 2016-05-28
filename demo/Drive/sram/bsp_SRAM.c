@@ -1,14 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "sys.h"
 
-#include "stm32f10x.h" 
-#include "SRAM.h" 
-
+#include "bsp_SRAM.h" 
 
 #define Bank1_SRAM3_ADDR    ((u32)(0x68000000))		
   						   
 //初始化外部SRAM
-void FSMC_SRAM_Init(void)
+void bsp_InitSRAM(void)
 {	
 	FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure;
 	FSMC_NORSRAMTimingInitTypeDef  readWriteTiming;

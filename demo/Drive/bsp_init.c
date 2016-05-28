@@ -15,12 +15,14 @@
 
 /* 头文件 ------------------------------------------------------------------*/
 #include "sys.h"
-#include "bsp_usart.h"
+
 #include "bsp_led.h"
-#include "lcd.h"
-#include "touch.h" 
-#include "delay.h"
-#include "SRAM.h" 
+#include "bsp_key.h"
+#include "bsp_usart.h"
+#include "bsp_24cxx.h" 
+#include "bsp_SRAM.h"
+#include "bsp_lcd.h"
+#include "bsp_touch.h"
 
 #include "bsp_init.h"
 
@@ -32,9 +34,7 @@
 *******************************************************************************/
 void NVIC_Configuration(void)
 {
-//    SCB->VTOR = FLASH_BASE | 0x8000;
-//	NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x8000);
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);//只有0-15的先占优先级
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4); //只有0-15的先占优先级
 }
 
 /*******************************************************************************
@@ -45,15 +45,15 @@ void NVIC_Configuration(void)
 *******************************************************************************/
 void bsp_Init(void)
 {
-	NVIC_Configuration();//中断分组
+	NVIC_Configuration(); //中断分组
     
-//    delay_init();	    	 //延时函数初始化
-    uart_init(9600);
-    FSMC_SRAM_Init();	 //初始化SRAM	
-    LED_Init();
-	LCD_init();			 //LCD初始化
-    tp_dev.init();
-//	DMA_init();			 //初始化DMA   
+    bsp_InitUsart1(9600); //初始化串口
+    bsp_InitSRAM();	      //初始化SRAM	
+    bsp_InitLED();        //初始化LED
+    bsp_InitKey();	      //初始化按键
+	bsp_InitLCD();	      //初始化LCD
+    TP_Init();            //初始化触摸
+//	DMA_init();		      //初始化DMA   
 
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_CRC, ENABLE);
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_CRC, ENABLE);//使用STemWin必须先使能CRC
 }

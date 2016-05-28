@@ -1,11 +1,6 @@
-#include "24cxx.h" 
-//#include "delay.h" 
 #include "delay.h"
-//Mini STM32开发板
-//24CXX驱动函数(适合24C01~24C16,24C32~256未经过测试!有待验证!)
-//正点原子@ALIENTEK
-//2010/6/10
-//V1.2
+
+#include "bsp_24cxx.h" 
 
 //初始化IIC接口
 void AT24CXX_Init(void)

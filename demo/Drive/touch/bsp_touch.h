@@ -1,18 +1,5 @@
-#ifndef __TOUCH_H__
-#define __TOUCH_H__
-#include "sys.h"
-//////////////////////////////////////////////////////////////////////////////////	 
-//本程序只供学习使用，未经作者许可，不得用于其它任何用途
-//ALIENTEK战舰STM32开发板
-//触摸屏驱动（支持ADS7843/7846/UH7843/7846/XPT2046/TSC2046等） 代码	   
-//正点原子@ALIENTEK
-//技术论坛:www.openedv.com
-//修改日期:2012/9/11
-//版本：V1.0
-//版权所有，盗版必究。
-//Copyright(C) 广州市星翼电子科技有限公司 2009-2019
-//All rights reserved									  
-//////////////////////////////////////////////////////////////////////////////////
+#ifndef __BSP_TOUCH_H__
+#define __BSP_TOUCH_H__
 
 #define TP_PRES_DOWN 0x80  //触屏被按下	  
 #define TP_CATH_PRES 0x40  //有按键按下了 	  
@@ -66,7 +53,7 @@ u8 TP_Init(void);								//初始化
 																 
 void TP_Adj_Info_Show(u16 x0,u16 y0,u16 x1,u16 y1,u16 x2,u16 y2,u16 x3,u16 y3,u16 fac);//显示校准信息
  		  
-#endif
+#endif //__BSP_TOUCH_H__
 
 
 
