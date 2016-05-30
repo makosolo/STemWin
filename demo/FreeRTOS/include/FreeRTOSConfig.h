@@ -82,28 +82,22 @@
  * See http://www.freertos.org/a00110.html.
  *----------------------------------------------------------*/
 
-#define configUSE_PREEMPTION		1                               //1，抢占式调度，0协同调度
-#define configUSE_IDLE_HOOK			0                               //空闲回调函数使能控制，vApplicationIdleHook
-#define configUSE_TICK_HOOK			0                               //SYSTEM TICK的回调函数，用于OS功能扩展，需要你自己编相应函数
-#define configCPU_CLOCK_HZ			( ( unsigned long ) 72000000 )	//系统CPU频率，单位是Hz
-#define configTICK_RATE_HZ			( ( TickType_t ) 1000 )         //系统SYSTEM TICK每秒钟的发生次数， 数值越大系统反应越快，但是CPU用在任务切换的开销就越多
-#define configMAX_PRIORITIES		( 5 )                           //系统任务优先级数,这个数目越大耗费RAM越多
-#define configMINIMAL_STACK_SIZE	( ( unsigned short ) 128 )      //系统最小堆栈尺寸，注意128不是128字节，而是128个入栈。比如ARM32位，128个入栈就是512字节
-#define configTOTAL_HEAP_SIZE		( ( size_t ) ( 30 * 1024 ) )    //系统可用内存
-#define configMAX_TASK_NAME_LEN		( 16 )                          //任务的PC名字最大长度
-#define configUSE_TRACE_FACILITY	0                               //是否设定成追踪，由PC端TraceCon.exe记录，也可以转到系统显示屏上
-#define configUSE_16_BIT_TICKS		0                               //SYSTEM TICK的长度，16是16位，如果是16位以下CPU， 一般选1；如果是32位系统，一般选0
-#define configIDLE_SHOULD_YIELD		1                               //简单理解以下就是和IDLE TASK同样优先级的任务执行情况。建议设成1，对系统影响不大
-#define configUSE_MUTEXES			1   //跟GUI移植有关
-//#define configUSE_COUNTING_SEMAPHORES   1                                   //是否用计数式的SEMAPHORES，SEMAPHORES也是任务间通讯的一种方式
-//#define configUSE_MUTEXES			    1                                   //MUTEXES是任务间通讯的一种方式，特别是用于任务共享资源的应用，比如打印机，任务A用的时候就排斥别的任务应用，用完了别的任务才可以应用
-//#define configCHECK_FOR_STACK_OVERFLOW	0                                   //此项用于DEBUG，来看是否有栈溢出，需要你自己编相应检查函数void vApplicationStackOverflowHook(xTaskHandle *pxTask, signed portCHAR *pcTaskName )
-//#define configQUEUE_REGISTRY_SIZE		8
-//#define configCHECK_FOR_STACK_OVERFLOW	0
-//#define configUSE_RECURSIVE_MUTEXES		1
-//#define configUSE_MALLOC_FAILED_HOOK	0
-//#define configUSE_APPLICATION_TASK_TAG	0
-//#define configUSE_COUNTING_SEMAPHORES	1
+#define configUSE_PREEMPTION		    1                               //1，抢占式调度，0协同调度
+#define configUSE_IDLE_HOOK			    1                               //空闲回调函数使能控制，vApplicationIdleHook
+#define configUSE_TICK_HOOK			    0                               //SYSTEM TICK的回调函数，用于OS功能扩展，需要你自己编相应函数
+#define configCPU_CLOCK_HZ			    ( ( unsigned long ) 72000000 )	//系统CPU频率，单位是Hz
+#define configTICK_RATE_HZ			    ( ( TickType_t ) 1000 )         //系统SYSTEM TICK每秒钟的发生次数， 数值越大系统反应越快，但是CPU用在任务切换的开销就越多
+#define configMAX_PRIORITIES		    ( 5 )                           //系统任务优先级数,这个数目越大耗费RAM越多
+#define configMINIMAL_STACK_SIZE	    ( ( unsigned short ) 128 )      //系统最小堆栈尺寸，注意128不是128字节，而是128个入栈。比如ARM32位，128个入栈就是512字节
+#define configTOTAL_HEAP_SIZE		    ( ( size_t ) ( 30 * 1024 ) )    //系统可用内存
+#define configMAX_TASK_NAME_LEN		    ( 16 )                          //任务的PC名字最大长度
+#define configUSE_TRACE_FACILITY	    0                               //是否设定成追踪，由PC端TraceCon.exe记录，也可以转到系统显示屏上
+#define configUSE_16_BIT_TICKS		    0                               //SYSTEM TICK的长度，16是16位，如果是16位以下CPU， 一般选1；如果是32位系统，一般选0
+#define configIDLE_SHOULD_YIELD		    1                               //简单理解以下就是和IDLE TASK同样优先级的任务执行情况。建议设成1，对系统影响不大
+#define configUSE_COUNTING_SEMAPHORES   0                               //是否用计数式的SEMAPHORES，SEMAPHORES也是任务间通讯的一种方式
+#define configUSE_MUTEXES			    1                               //MUTEXES是任务间通讯的一种方式，特别是用于任务共享资源的应用，比如打印机，任务A用的时候就排斥别的任务应用，用完了别的任务才可以应用
+#define configCHECK_FOR_STACK_OVERFLOW	2                               //此项用于DEBUG，来看是否有栈溢出，需要你自己编相应检查函数void vApplicationStackOverflowHook()
+
 
 /* Co-routine definitions. */
 //适用协程。协程公用堆栈，节省RAM，但是没有任务优先级高，也无法和任务通讯

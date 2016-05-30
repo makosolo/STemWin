@@ -10,10 +10,9 @@
 #include "MainTask.h"
 
 static void vTaskGUI(void *pvParameters);
-void vTaskTaskLED0(void *pvParameters);
-void vTaskTaskLED1(void *pvParameters);
+void vTaskTaskLED(void *pvParameters);
 void vTaskTaskKEY(void *pvParameters);
-    
+
 int main(void)
 {
     bsp_Init();//硬件初始化
@@ -26,15 +25,8 @@ int main(void)
                     3,                 /* 任务优先级*/
                     NULL );            /* 任务句柄  */    
     
-    xTaskCreate(    vTaskTaskLED0,   /* 任务函数  */
-                    "vTaskTaskLED0",     /* 任务名    */
-                    configMINIMAL_STACK_SIZE,               /* stack大小，单位word，也就是4字节 */
-                    NULL,              /* 任务参数  */
-                    2,                 /* 任务优先级*/
-                    NULL );            /* 任务句柄  */
-
-    xTaskCreate(    vTaskTaskLED1,   /* 任务函数  */
-                    "vTaskTaskLED1",     /* 任务名    */
+    xTaskCreate(    vTaskTaskLED,   /* 任务函数  */
+                    "vTaskTaskLED",     /* 任务名    */
                     configMINIMAL_STACK_SIZE,               /* stack大小，单位word，也就是4字节 */
                     NULL,              /* 任务参数  */
                     2,                 /* 任务优先级*/
@@ -52,15 +44,12 @@ int main(void)
     while(1);
 }
 
-/*
-*********************************************************************************************************
-*	函 数 名: vTaskGUI
-*	功能说明: emWin任务
-*	形    参: pvParameters 是在创建该任务时传递的形参
-*	返 回 值: 无
-*   优 先 级: 1   (数值越小优先级越低，这个跟uCOS相反)
-*********************************************************************************************************
-*/
+/*******************************************************************************
+* 函数名	: vTaskGUI
+* 描述  	: emWin任务
+* 参数  	: pvParameters 是在创建该任务时传递的形参
+* 返回值	: 无
+*******************************************************************************/
 static void vTaskGUI(void *pvParameters)
 {
 	while (1) 
@@ -69,24 +58,32 @@ static void vTaskGUI(void *pvParameters)
 	}
 }
 
-void vTaskTaskLED0(void *pvParameters)
+/*******************************************************************************
+* 函数名	: vTaskTaskLED
+* 描述  	: LED任务
+* 参数  	: pvParameters 是在创建该任务时传递的形参
+* 返回值	: 无
+*******************************************************************************/
+void vTaskTaskLED(void *pvParameters)
 {
     while(1)
     {
         LED0 = !LED0;
-        vTaskDelay(500);
-    }
-}
-
-void vTaskTaskLED1(void *pvParameters)
-{
-    while(1)
-    {
-        LED1 = !LED1;
         vTaskDelay(250);
+        
+        LED0 = !LED0;
+        vTaskDelay(250);
+        
+        LED1 = !LED1;
     }
 }
 
+/*******************************************************************************
+* 函数名	: vTaskTaskKEY
+* 描述  	: KEY任务
+* 参数  	: pvParameters 是在创建该任务时传递的形参
+* 返回值	: 无
+*******************************************************************************/
 GUI_PID_STATE State;
 void vTaskTaskKEY(void *pvParameters)
 {
@@ -129,11 +126,27 @@ void vTaskTaskKEY(void *pvParameters)
     }
 }
 
-//栈溢出回调函数
-//void vApplicationStackOverflowHook(xTaskHandle *pxTask, signed portCHAR *pcTaskName)
-//{
-//	printf("线程：%s 堆栈溢出\r\n",pcTaskName);
-//}
+/*******************************************************************************
+* 函数名	: vApplicationIdleHook
+* 描述  	: 空闲任务回调函数
+* 参数  	: 无
+* 返回值	: 无
+*******************************************************************************/
+void vApplicationIdleHook(void)
+{    
+	__WFI();//低功耗模式
+} 
+
+/*******************************************************************************
+* 函数名	: vApplicationStackOverflowHook
+* 描述  	: 栈溢出回调函数
+* 参数  	: 无
+* 返回值	: 无
+*******************************************************************************/
+void vApplicationStackOverflowHook(xTaskHandle *pxTask, signed portCHAR *pcTaskName)
+{
+	printf("线程：%s 堆栈溢出\r\n",pcTaskName);
+}
 
 void HardFault_Handler(void)
 {
